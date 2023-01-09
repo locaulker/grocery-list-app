@@ -11,7 +11,17 @@ function App() {
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log("Hello Submit")
+
+    if (!name) {
+      // display alert
+    } else if (name && isEditing) {
+      // deal with editing
+    } else {
+      // show alert
+      const newItem = { id: new Date().getTime().toString(), title: name }
+      setList([...list, newItem])
+      setName("")
+    }
   }
 
   return (
@@ -23,7 +33,7 @@ function App() {
           <input
             type="text"
             className="grocery"
-            placeholder="eg: A Loaf of bread"
+            placeholder="add list item"
             value={name}
             onChange={e => setName(e.target.value)}
           />
@@ -32,10 +42,12 @@ function App() {
           </button>
         </div>
       </form>
-      <div className="grocery-container">
-        <List />
-        <button className="clear-btn">Clear Items</button>
-      </div>
+      {list.length > 0 && (
+        <div className="grocery-container">
+          <List items={list} />
+          <button className="clear-btn">Clear Items</button>
+        </div>
+      )}
     </section>
   )
 }
