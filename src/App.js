@@ -10,7 +10,7 @@ function App() {
   const [alert, setAlert] = useState({
     show: false,
     msg: "",
-    type: "",
+    type: ""
   })
 
   const handleSubmit = e => {
@@ -21,6 +21,18 @@ function App() {
       showAlert(true, "danger", "Please enter list item")
     } else if (name && isEditing) {
       // deal with editing
+      setList(
+        list.map(item => {
+          if (item.id === editID) {
+            return { ...item, title: name }
+          }
+          return item
+        })
+      )
+      setName("")
+      setEditID(null)
+      setIsEditing(false)
+      showAlert(true, "success", "list item changed")
     } else {
       showAlert(true, "success", "Item added to list")
       const newItem = { id: new Date().getTime().toString(), title: name }
